@@ -28,8 +28,13 @@ CREATE TABLE metadata.etl_job_log (
     log_file_path STRING COMMENT 'Location of the detailed log file',
     created_at TIMESTAMP COMMENT 'Log creation timestamp'
 )
-USING ICEBERG
-COMMENT 'Stores job-level and task-level execution logs for the metadata-driven ETL framework';
+USING iceberg
+PARTITIONED BY (days(created_at))
+COMMENT 'Audit log of every ETL notification (email) attempt, sent or failed'
+TBLPROPERTIES (
+    'write.format.default'   = 'parquet',
+    'format-version'         = '2'
+);
 
 
 
