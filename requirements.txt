@@ -1,0 +1,7 @@
+# This framework is built on Python's standard library only (sqlite3, smtplib,
+# logging, email) to keep it dependency-free and easy to deploy.
+#
+# The single conditional dependency below is only needed if you run on
+# Python < 3.11, since `tomllib` (used to read the TOML credentials file)
+# was added to the standard library in 3.11.
+tomli>=2.0.1; python_version < "3.11"

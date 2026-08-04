@@ -1,0 +1,41 @@
+# ============================================================================
+# email_config.toml
+# ----------------------------------------------------------------------------
+# Outlook / Office365 SMTP credentials and default notification settings for
+# the ETL Notification module.
+#
+# SECURITY NOTE:
+#   - Never commit this file with real credentials to source control.
+#   - Prefer an Outlook "App Password" over your normal account password
+#     when MFA is enabled on the mailbox.
+#   - Restrict file system permissions on this file (e.g. chmod 600 on
+#     Linux) so only the ETL service account can read it.
+# ============================================================================
+
+[email]
+smtp_server         = "smtp.office365.com"   # Outlook/Office365 SMTP host
+smtp_port           = 587                    # 587 = STARTTLS, 465 = SSL
+use_tls             = true
+sender_email        = "etl-monitor@yourcompany.com"
+username            = "etl-monitor@yourcompany.com"
+password            = "CHANGE_ME_APP_PASSWORD"
+default_recipients  = ["data-team@yourcompany.com"]
+default_cc          = []
+max_retries         = 3
+retry_delay_seconds = 5
+dry_run             = true    # when true, email is built but NOT actually sent (useful for testing).
+                               # Set to false + fill in real credentials to send live emails.
+
+[email.subject]
+success_prefix = "[ETL SUCCESS]"
+failure_prefix = "[ETL FAILED]"
+warning_prefix = "[ETL WARNING]"
+
+[database]
+# SQLAlchemy connection URL used by BOTH the logging module and the
+# notification module to persist status rows.
+# Examples:
+#   SQLite   : "sqlite:///etl_logs.db"
+#   SQL Server: "mssql+pyodbc://user:pass@dsn_name"
+#   Postgres : "postgresql+psycopg2://user:pass@host:5432/etl_db"
+db_url = "sqlite:///etl_logs.db"
